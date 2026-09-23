@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScholarsHub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <div class="logo">ScholarsHub</div>
+  <div class="navlinks">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <a href="#scholarships">Back</a>
+  </div>
+</nav>
+
+<section id="home" class="hero">
+  <div class="hero-overlay">
+    <div class="logo-box">🎓<span>₹</span></div>
+    <h1>Welcome to ScholarsHub</h1>
+    <p>Your gateway to all scholarships in one place...!</p>
+    <div class="category-row">
+      <button onclick="showCategory('government')">🏛️ Government scholarships</button>
+      <button onclick="showCategory('private')">🔒 Private scholarships</button>
+      <button onclick="showCategory('ngo')">🏫 NGO fund based scholarships</button>
+      <button onclick="showCategory('international')">🌍 International level scholarships</button>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <h2>About ScholarsHub</h2>
+  <p>ScholarsHub is a one-stop platform that brings together all types of scholarships—government, private, national, and international—on a single website.</p>
+  <p>It helps students easily search, filter, and apply for opportunities that match their education level, field of study, and eligibility.</p>
+  <p>The aim of ScholarsHub is to make scholarship information simple, accessible, and reliable for every student.</p>
+</section>
+
+<section class="login">
+  <h2>Login</h2>
+  <input placeholder="Name">
+  <input placeholder="Email" type="email">
+  <input placeholder="Password" type="password">
+  <button onclick="login()">Login</button>
+</section>
+
+<section id="scholarships" class="scholarships">
+  <div class="scholarship-card">
+    <button onclick="showCategory('government')">Government Scholarships</button>
+    <button onclick="showCategory('private')">Private Scholarships</button>
+    <button onclick="showCategory('ngo')">Non-Governmental Organization(NGO)Scholarships</button>
+    <button onclick="showCategory('international')">International Scholarships</button>
+  </div>
+  <h2>Available Scholarships</h2>
+  <p>Explore national and international scholarships with eligibility, benefits, and application details.</p>
+</section>
+
+<section id="results" class="results">
+  <h2 id="resultTitle">Government Scholarships</h2>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Name</th><th>Official Portal</th><th>Classes</th><th>Eligibility</th><th>Amount</th><th>Dates</th></tr></thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <h2>Contact Us</h2>
+  <p>Email: scholarshub@example.com</p>
+  <p>We help students discover scholarship opportunities in one place.</p>
+</section>
+
+<footer>© 2026 ScholarsHub | All scholarship information should be verified on the official portal.</footer>
+
+<script>
+const data = {
+ government: [
+  ["National Scholarship Portal","NSP","1–10, 11–12, UG, PG","SC/ST/OBC/Minority/EWS and scheme-specific eligibility","Varies","Jun–Oct (varies)"],
+  ["West Bengal – Aikyashree","SVMCM","Class 11 to PhD","West Bengal domicile; family income limit; academic merit","₹1,000 to ₹5,000 per month","Varies"],
+  ["Gujarat – Digital Gujarat","Gujarat Digital","Pre-Matric; Post-Matric","SC/ST/OBC; family income limit","₹1,000 to ₹10,000 per year","Varies"],
+  ["Karnataka – SSP","SSP","Pre-Matric; Post-Matric","SC/ST/OBC/Minority students; family income limits","₹1,000 to ₹10,000 per year","Varies"],
+  ["Maharashtra – MahaDBT","MahaDBT","Pre-Matric to PG","SC/ST/OBC students; income and course conditions","Up to scheme limit","Varies"],
+  ["Tamil Nadu – TN e-District","TN e-District","Classes 11–12, UG, PG","Tamil Nadu domicile; family income and academic criteria","₹1,000 to ₹5,000 per year","Varies"],
+  ["Uttar Pradesh – UP Scholarship","UP Scholarship","Pre-Matric, Post-Matric","General/SC/ST/OBC; family income limit","₹1,000 to ₹10,000","Varies"],
+  ["Bihar – Post Matric Scholarship","Post Matric Scholarship","Classes 11–12, UG, PG","Bihar domicile; family income limits apply","Up to scheme limit","Varies"],
+  ["Rajasthan – RajSSO","RajSSO","Classes 11–12, UG, PG","Rajasthan domicile; family income limits apply","Up to scheme limit","Varies"]
+ ],
+ private: [
+  ["Reliance Foundation Scholarship","Reliance Foundation","UG","Academic performance and eligibility criteria","Scheme dependent","Check official portal"],
+  ["Tata Capital Pankh Scholarship","Tata Capital","School/UG/PG","Income and academic criteria","Scheme dependent","Check official portal"],
+  ["Aditya Birla Scholarship","Aditya Birla Group","Selected higher education","Institution/course-specific criteria","Scheme dependent","Check official portal"]
+ ],
+ ngo: [
+  ["Azim Premji Foundation Scholarships","Azim Premji Foundation","Eligible students","Scheme-specific criteria","Scheme dependent","Check official portal"],
+  ["GiveIndia Education Support","GiveIndia","Students in eligible programs","Donor/program-specific eligibility","Scheme dependent","Check official portal"]
+ ],
+ international: [
+  ["Fulbright Scholarships","Fulbright","Higher education","Country/program-specific eligibility","Varies","Check official portal"],
+  ["Erasmus Mundus","European Union","Master's","Program-specific eligibility","Varies","Check official portal"],
+  ["Chevening Scholarships","UK Government","Master's","Work experience and program criteria","Varies","Check official portal"]
+ ]
+};
+
+function showCategory(category){
+  document.getElementById("results").style.display = "block";
+  document.getElementById("resultTitle").textContent =
+    category==="ngo" ? "NGO Scholarships" :
+    category.charAt(0).toUpperCase()+category.slice(1)+" Scholarships";
+  const body=document.getElementById("tableBody");
+  body.innerHTML="";
+  data[category].forEach(r=>{
+    const tr=document.createElement("tr");
+    r.forEach((c,i)=>{
+      const td=document.createElement("td");
+      if(i===1){
+        const a=document.createElement("a");
+        a.href="#contact"; a.textContent=c; a.title="Verify the current official portal before applying";
+        td.appendChild(a);
+      } else td.textContent=c;
+      tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  });
+  document.getElementById("results").scrollIntoView({behavior:"smooth"});
+}
+function login(){ alert("Login demo: connect this form to a backend for real authentication."); }
+showCategory("government");
+</script>
+</body>
+</html>
